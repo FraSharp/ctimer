@@ -3,8 +3,8 @@
 #include <stdarg.h>
 #include "timer.h"
 
-struct timer_time get_current_time() {
-	struct timer_time timer_time_struct;
+union timer_time get_current_time() {
+	union timer_time timer_time_struct;
 
 	timer_time_struct.tm_seconds = time(NULL);
 	timer_time_struct.time_struct = localtime(&timer_time_struct.tm_seconds);
@@ -37,7 +37,7 @@ int start_timer(uint seconds, uint minutes, uint hours) {
 }
 
 int main(void) {
-	struct timer_time timer_func_struct;
+	union timer_time timer_func_struct;
 	uint hours, minutes, seconds;
 	timer_func_struct = get_current_time();
 
