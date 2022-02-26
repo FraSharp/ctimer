@@ -1,0 +1,8 @@
+# Ignore everything except c files, Makefile and .gitignore
+/*
+!/Makefile
+!/**.c
+!/.gitignore
+
+# macOS
+/**.DS_Store
