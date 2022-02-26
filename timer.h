@@ -15,5 +15,6 @@ struct timer_time {
 struct timer_time get_current_time();
 
 typedef enum error {
-	ERRRUN = 12
+	ERRRUN = 12,
+	ERRVAL = 24
 } error;

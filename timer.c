@@ -23,46 +23,59 @@ int alter_timer_state(void) {
 	return 0;
 }
 
+void allocate_array(unsigned int dest_array[], int values, ...) {
+	va_list list;
+	va_start(list, values);
+
+	for (int i = 0; i < values; i++)
+		dest_array[i] = va_arg(list, int);
+
+	va_end(list);
+}
+
 // TODO: function to get time to set
+int get_time_to_set(int values, ...) {
+	if (values > 3)
+		return ERRVAL;
+
+	unsigned int arr[values], to_set, hours, minutes, seconds;
+	allocate_array(arr, values, 20, 1, 0);
+
+	seconds = arr[0] ? arr[0] : 0;
+	minutes = arr[1] ? arr[1] : 0;
+	hours   = arr[2] ? arr[2] : 0;
+
+	to_set = seconds + (hours * 3600) + (minutes * 60);
+	printf("to_set: %d\n", to_set);
+	return to_set;
+}
+
 
 int start_timer(int values, ...) {
 	if (values > 3)
-		return 1;
+		return ERRVAL;
 
 	if (timer_state == RUNNING) {
 		printf("%s: timer already running, ret\n", __func__);
 		return ERRRUN;
-	} else {
-		unsigned int arr[values];
-		va_list list;
-		va_start(list, values);
-		for (int i = 0; i < values; ++i) {
-			arr[i] = va_arg(list, int);
-		}
-
-		timer_state = RUNNING;
-		unsigned int to_set, i, hours, minutes, seconds;
-
-		seconds = arr[0] ? arr[0] : 0;
-		minutes = arr[1] ? arr[1] : 0;
-		hours	= arr[2] ? arr[2] : 0;
-
-		// TODO: don't use *_to_set, only use seconds, minutes and hours and convert them in seconds
-		// without using other variable
-		// TODO: handle seconds > 60
-		int hours_to_set = hours * 3600;
-		int minutes_to_set = minutes * 60;
-		// TODO: seconds to set if > 60
-
-		to_set = seconds + hours_to_set + minutes_to_set;
-		printf("to_set: %d\n", to_set);
-		for (i = to_set; i > 0; i--) {
-			printf("\r%d", i);
-			fflush(stdout);
-			sleep(1); /* 1 sec */
-		}
-		va_end(list);
 	}
+
+	unsigned int to_set, i;
+	timer_state = RUNNING;
+
+	// TODO: don't use *_to_set, only use seconds, minutes and hours and convert them in seconds
+	// without using other variable
+	// TODO: handle seconds > 60
+	// int hours_to_set = hours * 3600;
+	// int minutes_to_set = minutes * 60;
+	// TODO: seconds to set if > 60
+	to_set = get_time_to_set(20, 1, 0);
+	for (i = to_set; i > 0; i--) {
+		printf("\r%d", i);
+		fflush(stdout);
+		sleep(1); /* 1 sec */
+	}
+
 	timer_state = STOPPED;
 	return 0;
 }
