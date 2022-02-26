@@ -42,27 +42,40 @@ int alter_timer_state(void) {
 // TODO: function to get time to set
 
 int start_timer(int values, ...) {
+	if (values > 3)
+		return 1;
+
 	if (timer_state == RUNNING) {
 		printf("%s: timer already running, ret\n", __func__);
 		return ERRRUN;
 	} else {
-// TODO: handle (convert) time > 60
+		unsigned int arr[values];
 		va_list list;
 		va_start(list, values);
+		for (int i = 0; i < values; ++i) {
+			arr[i] = va_arg(list, int);
+		}
+
 		timer_state = RUNNING;
 		unsigned int to_set, i, hours, minutes, seconds;
 
-		seconds = list[0] ? list[0] : 0;
-		minutes = list[1] ? list[1] : 0;
-		hours	= list[2] ? list[2] : 0;
+		seconds = arr[0] ? arr[0] : 0;
+		minutes = arr[1] ? arr[1] : 0;
+		hours	= arr[2] ? arr[2] : 0;
 
-		to_set = (seconds + ((minutes / 60) + (hours / 3600)));
+		// TODO: don't use *_to_set, only use seconds, minutes and hours and convert them in seconds
+		// without using other variable
+		// TODO: handle seconds > 60
+		int hours_to_set = hours * 3600;
+		int minutes_to_set = minutes * 60;
+		// TODO: seconds to set if > 60
 
+		to_set = seconds + hours_to_set + minutes_to_set;
+		printf("to_set: %d\n", to_set);
 		for (i = to_set; i > 0; i--) {
 			printf("\r%d", i);
-			printf("\n");
 			fflush(stdout);
-			usleep(300); /* 1 sec */
+			sleep(1); /* 1 sec */
 		}
 		va_end(list);
 	}
@@ -80,10 +93,11 @@ int main(void) {
 	minutes = timer_func_struct.time_struct->tm_min;
 	seconds = timer_func_struct.time_struct->tm_sec;
 
-	//printf("%d:%d:%d\n", hours, minutes, seconds);
+	printf("%d:%d:%d\n", hours, minutes, seconds);
 	// need to put an int before any value to set how many values we want to pass as parameters
 	timer_state = STOPPED;
-	start_timer(3, 20, 1, 0);
+
+	start_timer(3, 20, 1, 10);
 	// printf("%d\n", timer_state);		2 = STOPPED
 
 	return 0;
