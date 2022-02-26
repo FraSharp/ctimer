@@ -15,7 +15,7 @@ struct timer_time get_current_time() {
 enum timer_states timer_state;
 
 /* time to set in seconds  */
-unsigned int time_to_set(uint seconds, uint minutes, uint hours) {
+uint time_to_set(uint seconds, uint minutes, uint hours) {
 	return seconds + (hours * 3600) + (minutes * 60);
 }
 
@@ -38,7 +38,7 @@ int start_timer(uint seconds, uint minutes, uint hours) {
 
 int main(void) {
 	struct timer_time timer_func_struct;
-	int hours, minutes, seconds;
+	uint hours, minutes, seconds;
 	timer_func_struct = get_current_time();
 
 	/* time */
