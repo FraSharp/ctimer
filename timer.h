@@ -12,12 +12,15 @@ struct timer_time {
 	struct tm *time_struct;
 };
 
-struct timer_time get_current_time();
-
 typedef enum error {
 	ERRRUN = 12,
 	ERRVAL = 24
 } error;
 
 typedef unsigned int uint;
+
+struct timer_time get_current_time();
+uint time_to_set(uint seconds, uint minutes, uint hours);
+int start_timer(uint seconds, uint minutes, uint hours);
+int main(void);
 
