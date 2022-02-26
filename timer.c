@@ -1,19 +1,7 @@
-#include <stdio.h>
-#include <time.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdarg.h>
-
-enum timer_states {
-	RUNNING = 0,
-	PAUSED,
-	STOPPED
-} timer_states;
-
-struct timer_time {
-	time_t tm_seconds;
-	struct tm *time_struct;
-};
+#include "timer.h"
 
 struct timer_time get_current_time() {
 	struct timer_time timer_time_struct;
@@ -23,10 +11,6 @@ struct timer_time get_current_time() {
 
 	return timer_time_struct;
 }
-
-typedef enum error {
-	ERRRUN = 12
-} error;
 
 enum timer_states timer_state;
 
