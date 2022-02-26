@@ -14,64 +14,20 @@ struct timer_time get_current_time() {
 
 enum timer_states timer_state;
 
-int is_timer_running(enum timer_states timer_state) {
-	int ret = timer_state == RUNNING ? 1 : 0;
-	return ret;
+/* time to set in seconds  */
+unsigned int time_to_set(uint seconds, uint minutes, uint hours) {
+	return seconds + (hours * 3600) + (minutes * 60);
 }
 
-int alter_timer_state(void) {
-	return 0;
-}
+int start_timer(uint seconds, uint minutes, uint hours) {
+	uint seconds_to_set, i;
+        seconds_to_set = time_to_set(seconds, minutes, hours);
 
-void allocate_array(unsigned int dest_array[], int values, ...) {
-	va_list list;
-	va_start(list, values);
-
-	for (int i = 0; i < values; i++)
-		dest_array[i] = va_arg(list, int);
-
-	va_end(list);
-}
-
-// TODO: function to get time to set
-int get_time_to_set(int values, ...) {
-	if (values > 3)
-		return ERRVAL;
-
-	unsigned int arr[values], to_set, hours, minutes, seconds;
-	allocate_array(arr, values, 20, 1, 0);
-
-	seconds = arr[0] ? arr[0] : 0;
-	minutes = arr[1] ? arr[1] : 0;
-	hours   = arr[2] ? arr[2] : 0;
-
-	to_set = seconds + (hours * 3600) + (minutes * 60);
-	printf("to_set: %d\n", to_set);
-	return to_set;
-}
-
-
-int start_timer(int values, ...) {
-	if (values > 3)
-		return ERRVAL;
-
-	if (timer_state == RUNNING) {
-		printf("%s: timer already running, ret\n", __func__);
-		return ERRRUN;
-	}
-
-	unsigned int to_set, i;
 	timer_state = RUNNING;
 
-	// TODO: don't use *_to_set, only use seconds, minutes and hours and convert them in seconds
-	// without using other variable
 	// TODO: handle seconds > 60
-	// int hours_to_set = hours * 3600;
-	// int minutes_to_set = minutes * 60;
-	// TODO: seconds to set if > 60
-	to_set = get_time_to_set(20, 1, 0);
-	for (i = to_set; i > 0; i--) {
-		printf("\r%d", i);
+	for (i = seconds_to_set; i > 0; i--) {
+		printf("\r%d remaining", i);
 		fflush(stdout);
 		sleep(1); /* 1 sec */
 	}
@@ -94,7 +50,7 @@ int main(void) {
 	// need to put an int before any value to set how many values we want to pass as parameters
 	timer_state = STOPPED;
 
-	start_timer(3, 20, 1, 10);
+	start_timer(0, 1, 0);
 	// printf("%d\n", timer_state);		2 = STOPPED
 
 	return 0;

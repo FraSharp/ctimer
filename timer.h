@@ -18,3 +18,6 @@ typedef enum error {
 	ERRRUN = 12,
 	ERRVAL = 24
 } error;
+
+typedef unsigned int uint;
+
