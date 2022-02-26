@@ -1,7 +1,5 @@
-#include <unistd.h>
-#include <string.h>
-#include <stdarg.h>
 #include "timer.h"
+#include <unistd.h>
 
 union timer_time get_current_time() {
 	union timer_time timer_time_struct;
@@ -50,7 +48,7 @@ int main(void) {
 	// need to put an int before any value to set how many values we want to pass as parameters
 	timer_state = STOPPED;
 
-	start_timer(0, 1, 0);
+	start_timer(120, 0, 0);
 	// printf("%d\n", timer_state);		2 = STOPPED
 
 	return 0;
