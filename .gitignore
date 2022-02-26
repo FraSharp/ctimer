@@ -1,7 +1,8 @@
-# Ignore everything except c files, Makefile and .gitignore
+# Ignore everything except c files, h files, Makefile and .gitignore
 /*
 !/Makefile
 !/**.c
+!/**.h
 !/.gitignore
 
 # macOS
