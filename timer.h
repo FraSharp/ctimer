@@ -19,7 +19,7 @@ typedef enum error {
 
 typedef unsigned int uint;
 
-union timer_time get_current_time();
+union timer_time get_current_time(void);
 uint time_to_set(uint seconds, uint minutes, uint hours);
 int start_timer(uint seconds, uint minutes, uint hours);
 int main(void);

@@ -1,7 +1,7 @@
 #include "timer.h"
 #include <unistd.h>
 
-union timer_time get_current_time() {
+union timer_time get_current_time(void) {
 	union timer_time timer_time_struct;
 
 	timer_time_struct.tm_seconds = time(NULL);
